@@ -8,7 +8,7 @@
 import Foundation
 
 public protocol StoriesServiceProtocol: AnyObject {
-    func fetchStories(completion: @escaping ([Storie]) -> Void)
+    func fetchStories(completion: @MainActor @escaping ([Storie]) -> Void)
     func markAsRead(storyID: UInt)
     func fetchReadStories() -> Set<UInt>
 }
@@ -31,7 +31,7 @@ public class StoriesService: StoriesServiceProtocol {
     
     public let readStoriesKey = "ReadStories"
     
-    public func fetchStories(completion: @escaping ([Storie]) -> Void) {
+    public func fetchStories(completion: @MainActor @escaping ([Storie]) -> Void) {
         networkClient.fetch(url: storiesUrl) { [weak self] result in
             guard let self else { return }
             switch result {

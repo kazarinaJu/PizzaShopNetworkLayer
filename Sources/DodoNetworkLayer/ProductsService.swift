@@ -7,10 +7,10 @@
 import Foundation
 
 public protocol ProductsServiceProtocol: AnyObject {
-    func fetchProducts(completion: @escaping ([Product]) -> Void)
+    func fetchProducts(completion: @MainActor @escaping ([Product]) -> Void)
     func fetchCategories() -> [String]
-    func fetchIngredients(completion: @escaping ([Ingredient]) -> Void)
-    func fetchSizesAndDough(completion: @escaping ([String]?, [String]?) -> Void)
+    func fetchIngredients(completion: @MainActor @escaping ([Ingredient]) -> Void)
+    func fetchSizesAndDough(completion: @MainActor @escaping ([String]?, [String]?) -> Void)
 }
 
 public class ProductsService: ProductsServiceProtocol {
@@ -30,7 +30,7 @@ public class ProductsService: ProductsServiceProtocol {
         return url
     }
     
-    public func fetchProducts(completion: @escaping ([Product]) -> Void) {
+    public func fetchProducts(completion: @MainActor @escaping ([Product]) -> Void) {
         
         networkClient.fetch(url: productsUrl) { [weak self] result in
             guard let self else { return }
@@ -40,11 +40,7 @@ public class ProductsService: ProductsServiceProtocol {
                     let productResponse = try decoder.decode(ProductResponse.self, from: data)
                     let products = productResponse.products
                     
-//                    DispatchQueue.main.async {
-//                        completion(products)
-//                    }
-                    
-                    Task { @MainActor in
+                    DispatchQueue.main.async {
                         completion(products)
                     }
                     
@@ -61,7 +57,7 @@ public class ProductsService: ProductsServiceProtocol {
         return ProductSection.allCases.map { $0.description }
     }
     
-    public func fetchIngredients(completion: @escaping ([Ingredient]) -> Void) {
+    public func fetchIngredients(completion: @MainActor @escaping ([Ingredient]) -> Void) {
         
         networkClient.fetch(url: productsUrl) { [self] result in
             switch result {
@@ -70,11 +66,7 @@ public class ProductsService: ProductsServiceProtocol {
                     let ingredientResponse = try decoder.decode(ProductResponse.self, from: data)
                     let ingredients = ingredientResponse.ingredients
                     
-//                    DispatchQueue.main.async {
-//                        completion(ingredients)
-                    //                    }
-                    
-                    Task { @MainActor in
+                    DispatchQueue.main.async {
                         completion(ingredients)
                     }
                     
@@ -87,7 +79,7 @@ public class ProductsService: ProductsServiceProtocol {
         }
     }
     
-    public func fetchSizesAndDough(completion: @escaping ([String]?, [String]?) -> Void) {
+    public func fetchSizesAndDough(completion: @MainActor @escaping ([String]?, [String]?) -> Void) {
         networkClient.fetch(url: productsUrl) { [self] result in
             switch result {
             case .success(let data):
@@ -95,11 +87,8 @@ public class ProductsService: ProductsServiceProtocol {
                     let productResponse = try decoder.decode(ProductResponse.self, from: data)
                     let sizes = productResponse.sizes
                     let dough = productResponse.dough
-//                    DispatchQueue.main.async {
-//                        completion(sizes, dough)
-//                    }
                     
-                    Task { @MainActor in
+                    DispatchQueue.main.async {
                         completion(sizes, dough)
                     }
                     

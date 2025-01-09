@@ -17,7 +17,7 @@ public class StoriesService: StoriesServiceProtocol {
     public let networkClient: NetworkClientProtocol
     public let decoder: JSONDecoder
     
-    init(networkClient: NetworkClientProtocol, decoder: JSONDecoder = JSONDecoder()) {
+    public init(networkClient: NetworkClientProtocol, decoder: JSONDecoder = JSONDecoder()) {
         self.networkClient = networkClient
         self.decoder = decoder
     }

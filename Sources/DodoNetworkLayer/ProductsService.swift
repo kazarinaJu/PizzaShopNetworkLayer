@@ -40,9 +40,14 @@ public class ProductsService: ProductsServiceProtocol {
                     let productResponse = try decoder.decode(ProductResponse.self, from: data)
                     let products = productResponse.products
                     
-                    DispatchQueue.main.async {
+//                    DispatchQueue.main.async {
+//                        completion(products)
+//                    }
+                    
+                    Task { @MainActor in
                         completion(products)
                     }
+                    
                 } catch {
                     print(error.localizedDescription)
                 }
@@ -65,9 +70,14 @@ public class ProductsService: ProductsServiceProtocol {
                     let ingredientResponse = try decoder.decode(ProductResponse.self, from: data)
                     let ingredients = ingredientResponse.ingredients
                     
-                    DispatchQueue.main.async {
+//                    DispatchQueue.main.async {
+//                        completion(ingredients)
+                    //                    }
+                    
+                    Task { @MainActor in
                         completion(ingredients)
                     }
+                    
                 } catch {
                     print(error.localizedDescription)
                 }
@@ -85,9 +95,14 @@ public class ProductsService: ProductsServiceProtocol {
                     let productResponse = try decoder.decode(ProductResponse.self, from: data)
                     let sizes = productResponse.sizes
                     let dough = productResponse.dough
-                    DispatchQueue.main.async {
+//                    DispatchQueue.main.async {
+//                        completion(sizes, dough)
+//                    }
+                    
+                    Task { @MainActor in
                         completion(sizes, dough)
                     }
+                    
                 } catch {
                     print(error.localizedDescription)
                 }

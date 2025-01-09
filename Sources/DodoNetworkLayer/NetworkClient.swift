@@ -16,6 +16,8 @@ public protocol NetworkClientProtocol {
 }
 
 public struct NetworkClient: NetworkClientProtocol {
+    
+    public init() {}
    
     public func fetch(url: URL, completion: @escaping (Result<Data, Error>) -> Void) {
         let session = URLSession.shared

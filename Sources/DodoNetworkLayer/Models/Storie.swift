@@ -6,11 +6,11 @@
 //
 
 public struct StorieResponse: Codable {
-    let stories: [Storie]
+    public let stories: [Storie]
 }
 
 public struct Storie: Codable {
-    let id: UInt
-    let image: String
-    var readability: Bool
+    public let id: UInt
+    public let image: String
+    public var readability: Bool
 }

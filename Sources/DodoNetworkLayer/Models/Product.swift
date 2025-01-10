@@ -6,27 +6,27 @@
 //
 
 public struct ProductResponse: Codable {
-    let ingredients: [Ingredient]
-    let sizes, dough: [String]
-    let products: [Product]
+    public let ingredients: [Ingredient]
+    public let sizes, dough: [String]
+    public let products: [Product]
 }
 
 public struct Product: Codable {
-    let id: UInt
-    let name: String
-    let detail: String
-    let description: String
-    let weight: Int
-    var price: Int
-    let image: String
-    let portion: Int?
-    var size: String?
-    var dough: String?
-    let isOnSale: Bool
-    var count: Int = 1
-    let category: ProductSection
-    let isPromo: Bool?
-    let energyValue: String?
+    public let id: UInt
+    public let name: String
+    public let detail: String
+    public let description: String
+    public let weight: Int
+    public var price: Int
+    public let image: String
+    public let portion: Int?
+    public var size: String?
+    public var dough: String?
+    public let isOnSale: Bool
+    public var count: Int = 1
+    public let category: ProductSection
+    public let isPromo: Bool?
+    public let energyValue: String?
     
     public func sizeIndex(_ size: String) -> Int {
         switch size {
@@ -62,9 +62,9 @@ public struct Product: Codable {
 }
 
 public struct Ingredient: Codable {
-    let id: UInt
-    let image, name: String
-    let price: Int
+    public let id: UInt
+    public let image, name: String
+    public let price: Int
 }
 
 public enum ProductSection: String, Codable, CaseIterable {
